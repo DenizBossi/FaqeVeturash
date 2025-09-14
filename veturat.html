@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoPremium - Veturat dhe Çmimet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            background: white;
+            margin: 1rem auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1a2a6c;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #444;
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .search-box {
+            display: flex;
+            margin-top: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 1rem;
+        }
+        
+        .search-box button {
+            background: #1a2a6c;
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .car-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .car-image {
+            height: 200px;
+            overflow: hidden;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .car-card:hover .car-image img {
+            transform: scale(1.05);
+        }
+        
+        .car-info {
+            padding: 1.5rem;
+        }
+        
+        .car-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #1a2a6c;
+        }
+        
+        .car-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #b21f1f;
+            margin: 1rem 0;
+        }
+        
+        .car-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .car-features span {
+            background: #f5f7fa;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #1a2a6c;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: #2536a1;
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        footer {
+            background: #1a2a6c;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #2c3e90;
+            color: #ccc;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .cars-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-car"></i> AutoPremium</h1>
+            <p>Zbuloni koleksionin tonë të veturave me çmime konkurruese</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>50+ Veturat më të mira në treg</h1>
+            <p>Zgjidhni nga një koleksion i gjerë i veturave të reja dhe të përdorura me cilësi të lartë</p>
+        </section>
+
+        <section class="filters">
+            <div class="filter-group">
+                <label for="marka">Marka</label>
+                <select id="marka">
+                    <option value="te gjitha">Të gjitha</option>
+                    <option value="bmw">BMW</option>
+                    <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option>
+                    <option value="porsche">Porsche</option>
+                    <option value="lamborghini">Lamborghini</option>
+                    <option value="mclaren">McLaren</option>
+                    <option value="ferrari">Ferrari</option>
+                    <option value="bugatti">Bugatti</option>
+                    <option value="tesla">Tesla</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="viti">Viti</label>
+                <select id="viti">
+                    <option value="te gjitha">Të gjitha</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="cmimi">Çmimi</label>
+                <select id="cmimi">
+                    <option value="te gjitha">Të gjitha</option>
+                </select>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" placeholder="Kërko vetura...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </section>
+
+        <section class="cars-grid" id="cars-container">
+            <!-- Veturat do të shtohen me JavaScript -->
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Rreth Nesh</h3>
+                    <p>AutoPremium është një platformë e specializuar për shitjen e veturave me cilësi të lartë në tregun shqiptar.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Na Kontaktoni</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Rruga e Kavajës, Tirana</p>
+                    <p><i class="fas fa-phone"></i> +355 4X XXX XXXX</p>
+                    <p><i class="fas fa-envelope"></i> info@autopremium.al</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Linqet e Shpejta</h3>
+                    <a href="#">Banka e Veturave</a>
+                    <a href="#">Këshilla për Blerje</a>
+                    <a href="#">Financimi</a>
+                    <a href="#">Sigurimi</a>
+                </div>
+            </div>
+            
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 AutoPremium. Të gjitha të drejtat e rezervuara.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Të dhënat e veturave të rregulluara
+        const cars = [
+            {
+                id: 1,
+                name: "BMW Seria 3",
+                year: 2023,
+                price: 45900,
+                km: 12500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "258 HP",
+                image: "https://hips.hearstapps.com/hmg-prod/images/2025-bmw-3-series-111-66562dcf53a94.jpg?crop=1xw:1xh;center,top&resize=980:*"
+            },
+            {
+                id: 2,
+                name: "BMW X5",
+                year: 2022,
+                price: 78900,
+                km: 22000,
+                fuel: "Diesel",
+                transmission: "Automatik",
+                horsepower: "340 HP",
+                image: "https://hips.hearstapps.com/hmg-prod/images/2024-bmw-x5-107-1675791495.jpg?crop=1xw:1xh;center,top&resize=980:*"
+            },
+            {
+                id: 3,
+                name: "Lamborghini Revuelto",
+                year: 2025,
+                price: 489000,
+                km: 100,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "1015 HP",
+                image: "https://s1.cdn.autoevolution.com/images/news/the-real-batmobile-is-a-black-lamborghini-revuelto-dropped-on-matching-aftermarket-wheels-239009-7.jpg"
+            },
+            {
+                id: 4,
+                name: "Lamborghini Huracan",
+                year: 2024,
+                price: 289000,
+                km: 500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "631 HP",
+                image: "https://i.pinimg.com/originals/ae/a8/f6/aea8f6d2d3625146b97b0ea016e5559a.jpg"
+            },
+            {
+                id: 5,
+                name: "Lamborghini Urus",
+                year: 2024,
+                price: 265000,
+                km: 1200,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "666 HP",
+                image: "https://d2j40m88aovabi.cloudfront.net/storage/app/public/vehicle/main/eb81e7a43a96c97d2438bbb2a2aa00ff.jpg"
+            },
+            {
+                id: 6,
+                name: "Lamborghini Aventador",
+                year: 2024,
+                price: 550000,
+                km: 300,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "780 HP",
+                image: "https://wallpaperaccess.com/full/124868.jpg"
+            },
+            {
+                id: 7,
+                name: "BMW M4",
+                year: 2024,
+                price: 92500,
+                km: 5000,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "510 HP",
+                image: "https://t4.ftcdn.net/jpg/04/27/17/27/360_F_427172792_AZQRCpUoqmk80A7a9MIlQbiPyf2Mweww.jpg"
+            },
+            {
+                id: 8,
+                name: "BMW i4",
+                year: 2023,
+                price: 67500,
+                km: 8500,
+                fuel: "Elektrik",
+                transmission: "Automatik",
+                horsepower: "536 HP",
+                image: "https://imgcdn.oto.com/large/gallery/exterior/3/2371/bmw-i4-front-side-view-672794.jpg"
+            },
+            {
+                id: 9,
+                name: "BMW X3",
+                year: 2022,
+                price: 52500,
+                km: 18500,
+                fuel: "Diesel",
+                transmission: "Automatik",
+                horsepower: "265 HP",
+                image: "https://hips.hearstapps.com/hmg-prod/images/2025-bmw-x3-exterior-104-6671c79e0187e.jpg?crop=1xw:1xh;center,top&resize=980:*"
+            },
+            {
+                id: 10,
+                name: "Mercedes E-Klasse",
+                year: 2023,
+                price: 62500,
+                km: 15000,
+                fuel: "Diesel",
+                transmission: "Automatik",
+                horsepower: "265 HP",
+                image: "https://imgd-ct.aeplcdn.com/1056x660/n/cw/ec/162929/e-class-exterior-left-rear-three-quarter.jpeg?isig=0&q=80"
+            },
+            {
+                id: 11,
+                name: "Mercedes-Benz S-Klasse",
+                year: 2024,
+                price: 112500,
+                km: 3000,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "435 HP",
+                image: "https://static0.carbuzzimages.com/wordpress/wp-content/uploads/2025/04/2025-mercedes-benz-s-class-25c0081_002.jpg?q=49&fit=crop&w=360&h=240&dpr=2"
+            },
+            {
+                id: 12,
+                name: "Mercedes GLE AMG Line",
+                year: 2022,
+                price: 78500,
+                km: 24500,
+                fuel: "Diesel",
+                transmission: "Automatik",
+                horsepower: "325 HP",
+                image: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mercedes-Benz_GLE_AMG_Line_(V_167,_Facelift)_%E2%80%93_f_14042024.jpg"
+            },
+            {
+                id: 13,
+                name: "Audi A4",
+                year: 2023,
+                price: 48500,
+                km: 12500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "201 HP",
+                image: "https://pictures.dealer.com/a/audifarmingtonhillsmiaoa/1593/9cf5bea20694fbee18aa5c6d97275684x.jpg?impolicy=downsize_bkpt&w=2500"
+            },
+            {
+                id: 14,
+                name: "Audi Q7",
+                year: 2022,
+                price: 69500,
+                km: 18500,
+                fuel: "Diesel",
+                transmission: "Automatik",
+                horsepower: "282 HP",
+                image: "https://www.motortrend.com/files/66b26384c7741000082dab95/019-2025-audi-q7.jpg?w=768&width=768&q=75&format=webp"
+            },
+            {
+                id: 15,
+                name: "Porsche 911",
+                year: 2024,
+                price: 132500,
+                km: 2500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "385 HP",
+                image: "https://stimg.cardekho.com/images/carexteriorimages/930x620/Porsche/911/11757/1717680690776/front-left-side-47.jpg?imwidth=890&impolicy=resize"
+            },
+            {
+                id: 16,
+                name: "Porsche 718 Cayman GT4 RS",
+                year: 2023,
+                price: 138500,
+                km: 3500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "493 HP",
+                image: "https://www.autoblog.com/.image/w_3840,q_auto:good,c_fill,ar_4:3/NzowMDAwMDAwMDAwOTM1NjQy/2023-porsche-718-cayman-gt4-rs-arctic-grey-wp0ae2a83ps280470_012.avif"
+            },
+            {
+                id: 17,
+                name: "Toyota RAV4",
+                year: 2023,
+                price: 36500,
+                km: 9500,
+                fuel: "Hibrid",
+                transmission: "Automatik",
+                horsepower: "219 HP",
+                image: "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 18,
+                name: "Toyota Corolla",
+                year: 2022,
+                price: 24500,
+                km: 18500,
+                fuel: "Hibrid",
+                transmission: "Automatik",
+                horsepower: "121 HP",
+                image: "https://images.unsplash.com/photo-1621252179026-6e3306ce5f2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 19,
+                name: "McLaren Artura",
+                year: 2024,
+                price: 285000,
+                km: 800,
+                fuel: "Hibrid",
+                transmission: "Automatik",
+                horsepower: "671 HP",
+                image: "https://s1.cdn.autoevolution.com/images/news-gallery-860x/tuned-mclaren-artura-proves-certain-supercars-look-great-in-black-thumbnail_5.jpg"
+            },
+            {
+                id: 20,
+                name: "McLaren 750S",
+                year: 2024,
+                price: 345000,
+                km: 500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "740 HP",
+                image: "https://www.mclarencf.com/imagetag/416/main/l/New-2024-McLaren-750S-Performance.jpg"
+            },
+            {
+                id: 21,
+                name: "Ferrari SF90 Stradale",
+                year: 2024,
+                price: 625000,
+                km: 200,
+                fuel: "Hibrid",
+                transmission: "Automatik",
+                horsepower: "986 HP",
+                image: "https://img.pistonheads.com/Fullsize/ferrari/sf90-spider/ferrari-sf90-spider-1309737283-1.jpg"
+            },
+            {
+                id: 22,
+                name: "Ferrari 296 GTB",
+                year: 2022,
+                price: 385000,
+                km: 1500,
+                fuel: "Hibrid",
+                transmission: "Automatik",
+                horsepower: "818 HP",
+                image: "https://prestigecars.co.id/wp-content/uploads/2023/04/296GTB-1.jpg"
+            },
+            {
+                id: 23,
+                name: "Bugatti Chiron",
+                year: 2024,
+                price: 48500,
+                km: 6500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "335 HP",
+                image: "https://s1.cdn.autoevolution.com/images/news-gallery-860x/all-17-bugatti-chiron-versions-ranked-we-found-special-editions-you-never-knew-existed-thumbnail_9.jpg"
+            },
+            {
+                id: 24,
+                name: "Bugatti Bolide",
+                year: 2025,
+                price: 68500,
+                km: 18500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "355 HP",
+                image: "https://interestingengineering.com/_next/image?url=https://images.interestingengineering.com/img/iea/rV6nvkmZ6X/bugatti-bolide-new-header.jpg&w=1200&q=75"
+            },
+            {
+                id: 25,
+                name: "Tesla Model 3",
+                year: 2023,
+                price: 49500,
+                km: 9500,
+                fuel: "Elektrik",
+                transmission: "Automatik",
+                horsepower: "283 HP",
+                image: "https://static1.hotcarsimages.com/wordpress/wp-content/uploads/2024/02/2023-tesla-model-3-performance-1.jpg"
+            },
+            {
+                id: 26,
+                name: "Tesla Model Y",
+                year: 2022,
+                price: 62500,
+                km: 12500,
+                fuel: "Elektrik",
+                transmission: "Automatik",
+                horsepower: "384 HP",
+                image: "https://media.istockphoto.com/id/1272025387/photo/tesla-model-y-in-austin-texas-at-360-bridge.jpg?s=612x612&w=0&k=20&c=r8M2YhMwx_tAAgHO8e0HoGYG4G7D-XfYpKCPpIg0T_c="
+            },
+            {
+                id: 27,
+                name: "BMW Seria 5",
+                year: 2024,
+                price: 68500,
+                km: 2500,
+                fuel: "Diesel",
+                transmission: "Automatik",
+                horsepower: "295 HP",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/BMW_G60_520i_1X7A2443.jpg/512px-BMW_G60_520i_1X7A2443.jpg"
+            },
+            {
+                id: 28,
+                name: "BMW X7",
+                year: 2023,
+                price: 98500,
+                km: 12500,
+                fuel: "Diesel",
+                transmission: "Automatik",
+                horsepower: "390 HP",
+                image: "https://dealerinspire-image-library-prod.s3.us-east-1.amazonaws.com/images/YuwfBc7OWyNwYznsRTlJF3E0Dn5USpz923Pvb1NK.jpg"
+            },
+            {
+                id: 29,
+                name: "Mercedes-Benz S-Class",
+                year: 2023,
+                price: 112500,
+                km: 9500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "435 HP",
+                image: "https://static0.carbuzzimages.com/wordpress/wp-content/uploads/2025/04/2025-mercedes-benz-s-class-25c0081_002.jpg"
+            },
+            {
+                id: 30,
+                name: "Mercedes G-Klasse",
+                year: 2024,
+                price: 145000,
+                km: 1500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "577 HP",
+                image: "https://i.pinimg.com/originals/f8/0c/fe/f80cfe9cf6990dd3535ad829c13c6637.jpg"
+            },
+            {
+                id: 31,
+                name: "Audi RS 6 Avant",
+                year: 2024,
+                price: 125000,
+                km: 3500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "621 HP",
+                image: "https://images.cars.com/cldstatic/wp-content/uploads/audi-rs-6-avant-2024-exterior-oem-04.jpg?w=828"
+            },
+            {
+                id: 32,
+                name: "Audi Q8",
+                year: 2024,
+                price: 82500,
+                km: 8500,
+                fuel: "Diesel",
+                transmission: "Automatik",
+                horsepower: "286 HP",
+                image: "https://platform.cstatic-images.com/xlarge/in/v2/color_matched_stock_photos/729a697d-7dd1-460a-b7e3-35787db63ac7/44b049cb-f50d-416a-80c9-f973ac30dc28.jpg"
+            },
+            {
+                id: 33,
+                name: "Porsche Cayenne",
+                year: 2021,
+                price: 78500,
+                km: 28500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "335 HP",
+                image: "https://img.autobytel.com/chrome/colormatched_01/white/640/cc_2021prs06_01_640/cc_2021prs060021_01_640_a1.jpg"
+            },
+            {
+                id: 34,
+                name: "Porsche Macan",
+                year: 2020,
+                price: 54500,
+                km: 32500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "261 HP",
+                image: "https://cdn-ds.com/blogs-media/sites/722/2019/11/10152753/2020-Porsche-Macan-Black-Exterior-Color-Option_o.jpg"
+            },
+            {
+                id: 35,
+                name: "Toyota Camry",
+                year: 2023,
+                price: 34500,
+                km: 7500,
+                fuel: "Hibrid",
+                transmission: "Automatik",
+                horsepower: "208 HP",
+                image: "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 36,
+                name: "Toyota Hilux",
+                year: 2022,
+                price: 38500,
+                km: 22500,
+                fuel: "Diesel",
+                transmission: "Manual",
+                horsepower: "150 HP",
+                image: "https://images.unsplash.com/photo-1621252179026-6e3306ce5f2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 37,
+                name: "McLaren GT",
+                year: 2023,
+                price: 245000,
+                km: 3500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "612 HP",
+                image: "https://www.wrapstyle.com/content/img_cache/1200x675/1716977466-McLaren-GT-Black-Satin-Wrap-Wrapstyle-24.jpeg"
+            },
+            {
+                id: 38,
+                name: "McLaren Solus GT",
+                year: 2025,
+                price: 3950000,
+                km: 50,
+                fuel: "Benzinë",
+                transmission: "Sequential",
+                horsepower: "840 HP",
+                image: "https://jaysbrickblog.com/wp-content/uploads/2023/04/McLaren-Solus-GT-1400x719.jpeg"
+            },
+            {
+                id: 39,
+                name: "Ferrari Roma",
+                year: 2024,
+                price: 285000,
+                km: 1200,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "612 HP",
+                image: "https://luxferity.com/up/blog/content/ferrari-roma-spider-win-2024-red-dot-best-award-7-1200x800.jpg"
+            },
+            {
+                id: 40,
+                name: "Ferrari LaFerrari",
+                year: 2023,
+                price: 3500000,
+                km: 300,
+                fuel: "Hibrid",
+                transmission: "Automatik",
+                horsepower: "950 HP",
+                image: "https://media.istockphoto.com/id/503407231/photo/ferrari-laferrari.jpg?s=612x612&w=0&k=20&c=OQPSp43RHD4L7-7RHSL5MMpNJuxAssnZUFA7BDG-XSQ="
+            },
+            {
+                id: 41,
+                name: "Bugatti Mistral",
+                year: 2025,
+                price: 659300,
+                km: 1500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "495 HP",
+                image: "https://www.supercars.net/blog/wp-content/uploads/2022/08/2023-Bugatti-Mistral-10.jpg"
+            },
+            {
+                id: 42,
+                name: "Bugatti Brouillard",
+                year: 2025,
+                price: 32500,
+                km: 9500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "170 HP",
+                image: "https://images.autox.com/uploads/2025/08/Bugatti-Brouillard-1754631053758.webp"
+            },
+            {
+                id: 43,
+                name: "Tesla Model S",
+                year: 2023,
+                price: 89500,
+                km: 8500,
+                fuel: "Elektrik",
+                transmission: "Automatik",
+                horsepower: "670 HP",
+                image: "https://hips.hearstapps.com/hmg-prod/images/2023-tesla-model-3-102-1671468253.jpeg?crop=1xw:0.9xh;center,top&resize=1200:*"
+            },
+            {
+                id: 44,
+                name: "Tesla Model X",
+                year: 2022,
+                price: 98500,
+                km: 12500,
+                fuel: "Elektrik",
+                transmission: "Automatik",
+                horsepower: "670 HP",
+                image: "https://images.ctfassets.net/c9t6u0qhbv9e/2fWMTpycdId2Ustj9bMjDf/66e442bdf3d0b1bf02da1a7c0bdbf37d/2023_Tesla_Model_X_Thumbnail.jpg"
+            },
+            {
+                id: 45,
+                name: "BMW i8",
+                year: 2024,
+                price: 119500,
+                km: 2000,
+                fuel: "Hibrid",
+                transmission: "Automatik",
+                horsepower: "369 HP",
+                image: "https://i.redd.it/ul188op3ik2b1.jpg"
+            },
+            {
+                id: 46,
+                name: "BMW M5",
+                year: 2023,
+                price: 108500,
+                km: 7500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "617 HP",
+                image: "https://hips.hearstapps.com/hmg-prod/images/p90557391-highres-667b119867697.jpg?crop=1xw:1xh;center,top&resize=980:*"
+            },
+            {
+                id: 47,
+                name: "Mercedes-Benz EQC 400",
+                year: 2023,
+                price: 72500,
+                km: 8500,
+                fuel: "Elektrik",
+                transmission: "Automatik",
+                horsepower: "408 HP",
+                image: "https://s3.amazonaws.com/media.emercedesbenz.com/magazine/wp-content/uploads/2020/01/14131341/DSC05137-1000x570.jpg"
+            },
+            {
+                id: 48,
+                name: "Mercedes-Benz AMG CLE",
+                year: 2022,
+                price: 68500,
+                km: 18500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "443 HP",
+                image: "https://imgd.aeplcdn.com/664x374/n/cw/ec/207030/amg-cle-53-4matic-plus-exterior-left-front-three-quarter.jpeg?isig=0&q=80"
+            },
+            {
+                id: 49,
+                name: "Audi e-tron",
+                year: 2023,
+                price: 72500,
+                km: 9500,
+                fuel: "Elektrik",
+                transmission: "Automatik",
+                horsepower: "355 HP",
+                image: "https://www.motortrend.com/files/66eb3dccf193810008a69336/005-2025-audi-q8-sportback-e-tron-front-view.jpg?w=768&width=768&q=75&format=webp"
+            },
+            {
+                id: 50,
+                name: "Audi TT",
+                year: 2022,
+                price: 48500,
+                km: 12500,
+                fuel: "Benzinë",
+                transmission: "Automatik",
+                horsepower: "245 HP",
+                image: "https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/1c50f7fa-1b0e-417a-ab00-e288ea0db573/28960d42-e5db-4b24-b568-1b7c56f36e3b.png"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const carsContainer = document.getElementById('cars-container');
+            const searchInput = document.querySelector('.search-box input');
+            const markaFilter = document.getElementById('marka');
+            const vitiFilter = document.getElementById('viti');
+            const cmimiFilter = document.getElementById('cmimi');
+            
+            // Shfaq të gjitha veturat në fillim
+            displayCars(cars);
+            
+            // Funksioni për shfaqjen e veturave
+            function displayCars(carsToDisplay) {
+                carsContainer.innerHTML = '';
+                
+                if (carsToDisplay.length === 0) {
+                    carsContainer.innerHTML = `
+                        <div class="no-results">
+                            <h3>Nuk u gjet asnjë veturë</h3>
+                            <p>Provoni të modifikoni filtrat e kërkimit</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                carsToDisplay.forEach(car => {
+                    const carCard = document.createElement('div');
+                    carCard.className = 'car-card';
+                    
+                    // Formatimi i çmimit për supercar-at
+                    let priceDisplay;
+                    if (car.price > 1000000) {
+                        priceDisplay = (car.price / 1000000).toFixed(1) + 'M €';
+                    } else {
+                        priceDisplay = car.price.toLocaleString() + ' €';
+                    }
+                    
+                    carCard.innerHTML = `
+                        <div class="car-image">
+                            <img src="${car.image}" alt="${car.name}" onerror="this.src='https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'">
+                        </div>
+                        <div class="car-info">
+                            <h3>${car.name}</h3>
+                            <div class="car-details">
+                                <span>${car.year}</span>
+                                <span>${car.km.toLocaleString()} km</span>
+                            </div>
+                            <div class="car-price">${priceDisplay}</div>
+                            <div class="car-features">
+                                <span>${car.transmission}</span>
+                                <span>${car.fuel}</span>
+                                <span>${car.horsepower}</span>
+                            </div>
+                            <button class="btn">Shiko Detajet</button>
+                        </div>
+                    `;
+                    
+                    carsContainer.appendChild(carCard);
+                });
+                
+                // Shtojmë një efekt të thjeshtë kur klikohet butoni
+                const buttons = document.querySelectorAll('.btn');
+                buttons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        alert('Faleminderit për interesimin! Do të kontaktoheni së shpejti nga stafi ynë.');
+                    });
+                });
+            }
+            
+            // Funksioni për filtrimin e veturave
+            function filterCars() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const markaValue = markaFilter.value;
+                const vitiValue = vitiFilter.value;
+                const cmimiValue = cmimiFilter.value;
+                
+                const filteredCars = cars.filter(car => {
+                    // Filtrim sipas search
+                    const matchesSearch = car.name.toLowerCase().includes(searchTerm);
+                    
+                    // Filtrim sipas markës
+                    const matchesMarka = markaValue === 'te gjitha' || 
+                                        car.name.toLowerCase().includes(markaValue);
+                    
+                    // Filtrim sipas vitit
+                    const matchesViti = vitiValue === 'te gjitha' || 
+                                      car.year.toString() === vitiValue;
+                    
+                    // Filtrim sipas çmimit
+                    let matchesCmimi = true;
+                    if (cmimiValue !== 'te gjitha') {
+                        if (cmimiValue === '0-10000') {
+                            matchesCmimi = car.price >= 0 && car.price <= 10000;
+                        } else if (cmimiValue === '10000-20000') {
+                            matchesCmimi = car.price >= 10000 && car.price <= 20000;
+                        } else if (cmimiValue === '20000-30000') {
+                            matchesCmimi = car.price >= 20000 && car.price <= 30000;
+                        } else if (cmimiValue === '30000+') {
+                            matchesCmimi = car.price >= 30000;
+                        }
+                    }
+                    
+                    return matchesSearch && matchesMarka && matchesViti && matchesCmimi;
+                });
+                
+                displayCars(filteredCars);
+            }
+            
+            // Shtojmë event listeners për filtrimet
+            searchInput.addEventListener('keyup', filterCars);
+            markaFilter.addEventListener('change', filterCars);
+            vitiFilter.addEventListener('change', filterCars);
+            cmimiFilter.addEventListener('change', filterCars);
+        });
+    </script>
+</body>
+</html>
